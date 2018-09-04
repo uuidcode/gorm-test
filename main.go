@@ -42,8 +42,11 @@ func main() {
 
 	defer db.Close()
 
+	name, err := uuid.NewV4()
+	CheckErr(err)
+
 	db.Create(&Book{
-		Name:        uuid.NewV4().String(),
+		Name:        name.String(),
 		UserId:      1,
 		RegDatetime: time.Now(),
 		ModDatetime: time.Now(),
