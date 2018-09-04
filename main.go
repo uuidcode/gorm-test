@@ -38,6 +38,8 @@ func main() {
 	db, err := gorm.Open("mysql", url)
 	CheckErr(err)
 
+	db.LogMode(true)
+
 	defer db.Close()
 
 	db.Create(&Book{
@@ -47,18 +49,11 @@ func main() {
 		ModDatetime: time.Now(),
 	})
 
-	rows, err := db.Raw("select * from book").Rows()
-	CheckErr(err)
-
-	defer rows.Close()
-
 	var bookList []Book
 
-	for rows.Next() {
-		var book Book
-		db.ScanRows(rows, &book)
-		bookList = append(bookList, book)
-	}
+	db.Find(&bookList, Book{
+		UserId: 1,
+	})
 
 	fmt.Println(toJson(bookList))
 }
