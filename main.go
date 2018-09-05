@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/json"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/gorm-test/logger"
 	"github.com/jinzhu/gorm"
@@ -25,15 +24,9 @@ func (Book) TableName() string {
 	return "book"
 }
 
-func toJson(object interface{}) string {
-	bytes, err := json.MarshalIndent(object, "", "    ")
-	coreutil.CheckErr(err)
-	return string(bytes)
-}
-
 func init() {
 	log.SetFormatter(&prefixed.TextFormatter{})
-	log.SetFormatter(&log.TextFormatter{})
+	//log.SetFormatter(&log.TextFormatter{})
 	log.SetOutput(os.Stdout)
 	log.SetLevel(log.DebugLevel)
 }
@@ -65,5 +58,5 @@ func main() {
 		UserId: 1,
 	})
 
-	log.Debug(toJson(bookList))
+	log.Debug(coreutil.ToJson(bookList))
 }
