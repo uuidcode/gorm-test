@@ -2,11 +2,14 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/gorm-test/logger"
 	"github.com/jinzhu/gorm"
 	"github.com/satori/go.uuid"
+	log "github.com/sirupsen/logrus"
 	"github.com/uuidcode/coreutil"
+	"github.com/x-cray/logrus-prefixed-formatter"
+	"os"
 	"time"
 )
 
@@ -28,14 +31,26 @@ func toJson(object interface{}) string {
 	return string(bytes)
 }
 
+func init() {
+	log.SetFormatter(&prefixed.TextFormatter{})
+	log.SetFormatter(&log.TextFormatter{})
+	log.SetOutput(os.Stdout)
+	log.SetLevel(log.DebugLevel)
+}
+
 func main() {
+	log.Debug("main")
+
 	url := "root:rootroot@tcp(127.0.0.1:3306)/querydsl?charset=utf8&parseTime=true"
 	db, err := gorm.Open("mysql", url)
 	coreutil.CheckErr(err)
 
 	db.LogMode(true)
+	db.SetLogger(logger.New())
 
 	defer db.Close()
+
+	log.Warn("connect")
 
 	db.Create(&Book{
 		Name:        uuid.NewV4().String(),
@@ -50,5 +65,5 @@ func main() {
 		UserId: 1,
 	})
 
-	fmt.Println(toJson(bookList))
+	log.Debug(toJson(bookList))
 }
