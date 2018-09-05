@@ -6,6 +6,7 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
 	"github.com/satori/go.uuid"
+	"github.com/uuidcode/coreutil"
 	"time"
 )
 
@@ -21,22 +22,16 @@ func (Book) TableName() string {
 	return "book"
 }
 
-func CheckErr(err error) {
-	if err != nil {
-		panic(err)
-	}
-}
-
 func toJson(object interface{}) string {
 	bytes, err := json.MarshalIndent(object, "", "    ")
-	CheckErr(err)
+	coreutil.CheckErr(err)
 	return string(bytes)
 }
 
 func main() {
 	url := "root:rootroot@tcp(127.0.0.1:3306)/querydsl?charset=utf8&parseTime=true"
 	db, err := gorm.Open("mysql", url)
-	CheckErr(err)
+	coreutil.CheckErr(err)
 
 	db.LogMode(true)
 

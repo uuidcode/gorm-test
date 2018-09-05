@@ -34,6 +34,14 @@
   version = "v1.2.0"
 
 [[projects]]
+  branch = "master"
+  digest = "1:2697eb1464c4e586d094d81dc245125e429362b00cfabded342c457348292ecc"
+  name = "github.com/uuidcode/coreutil"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "e3a0102804d37c002828a63588b9690cafda46ec"
+
+[[projects]]
   digest = "1:c25289f43ac4a68d88b02245742347c94f1e108c534dda442188015ff80669b3"
   name = "google.golang.org/appengine"
   packages = ["cloudsql"]
@@ -48,6 +56,7 @@
     "github.com/go-sql-driver/mysql",
     "github.com/jinzhu/gorm",
     "github.com/satori/go.uuid",
+    "github.com/uuidcode/coreutil",
   ]
   solver-name = "gps-cdcl"
   solver-version = 1
